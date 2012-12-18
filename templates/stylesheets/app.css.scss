@@ -1,0 +1,22 @@
+/* app css stylesheet */
+
+a, button {
+  &.next-to-input {
+    margin-bottom: 10px;
+  }
+}
+
+.navbar-search.team-search {
+  margin-right: 0;
+}
+
+.navbar ul.breadcrumb {
+  background: transparent;
+  margin-bottom: 0;
+  padding: 12px 0 0 0;
+  font-size: 120%;
+}
+
+.table-team tbody:empty:after {
+  content: 'Keine Mitarbeiter gefunden.'
+}

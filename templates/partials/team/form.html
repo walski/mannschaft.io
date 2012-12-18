@@ -1,0 +1,30 @@
+<div ng-include="'/partials/team/breadcrumb.html'"></div>
+
+<form name="memberForm" ng-submit="saveTeamMember(member)">
+  <fieldset>
+    <legend ng-show="member.isNew()">Neuer Mitarbeiter</legend>
+    <legend ng-hide="member.isNew()">{{member.name()}} <a class="btn btn-danger pull-right" ng-click="deleteTeamMember(member)">Mitarbeiter löschen</a></legend>
+    <label for="firstName">Vorname</label>
+    <input id="firstName" ng-model="member.firstName" type="text" required>
+
+    <label for="lastName">Nachname</label>
+    <input id="lastName" ng-model="member.lastName" type="text" required>
+
+    <label for="newDepartment">Abteilungen</label>
+    <div class="no-departments" ng-show="member.departments|empty">
+      Zur Zeit in keine Abteilung eingeteilt
+    </div>
+    <div class="departments" ng-hide="member.departments|empty">
+      <span ng-repeat="department in member.departments">
+        <span class="label">{{department.name}}</span>
+      </span>
+    </div>
+    <input id="newDepartment" type="text" ng-model="newDepartment" />
+    <a class="btn next-to-input" ng-click="member.addDepartment(newDepartment);newDepartment = ''">Abteilung hinzufügen</a>
+
+    <div class="controls">
+      <button type="submit" class="btn btn-success" ng-show="member.isNew()">Mitarbeiter anlegen</button>
+      <button type="submit" class="btn btn-success" ng-hide="member.isNew()">Mitarbeiter speichern</button>
+    </div>
+  </fieldset>
+</form>

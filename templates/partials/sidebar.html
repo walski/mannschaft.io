@@ -1,0 +1,5 @@
+<div class="sidebar-nav" ng-controller="SidebarController">
+  <ul class="nav nav-stacked left-menu">
+    <li ng-repeat="page in pages" ng-include src="'partials/sidebar_item.html'" id="navigation-{{page.id}}" ng-class="{active: activeView==page.id}"></li>
+  </ul>
+</div>

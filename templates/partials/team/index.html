@@ -1,0 +1,20 @@
+<div ng-include="'/partials/team/breadcrumb.html'"></div>
+
+<h1>Mannschaft</h1>
+
+<table class="table table-bordered table-zebra table-radmin table-team">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Abteilung</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="member in team|orderBy:'lastName'|departmentFilter:departmentFilter|filter:search">
+      <td><a href="#/team/{{member._id}}">{{member.name()}}</a></td>
+      <td><span ng-repeat="department in member.departments"><a ng-click="toggleDepartmentFilter(department)"><span class="label {{department|filteredDepartment:departmentFilter:'label-warning'}}">{{department.name}}</span></a> </span></td>
+    </tr>
+  </tbody>
+</table>
+
+<a class="btn btn-success" href="/#team/new">Neuer Mitarbeiter</a>

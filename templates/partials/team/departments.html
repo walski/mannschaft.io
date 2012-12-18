@@ -1,0 +1,18 @@
+<div ng-init="departmentPage=true" ng-include="'/partials/team/breadcrumb.html'"></div>
+
+<h1>Abteilungen</h1>
+
+<table class="table table-index">
+  <thead>
+    <tr>
+      <th>Abteilung</th>
+      <th>Mitarbeiter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(id, department) in departments()|orderBy:'count'">
+      <td>{{department.department.name}}</td>
+      <td>{{department.count}}</td>
+    </tr>
+  </tbody>
+</table>

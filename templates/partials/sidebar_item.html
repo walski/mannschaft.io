@@ -1,0 +1,26 @@
+<a href="{{page.url}}" ng-show="page.subpages|empty">
+  <span class="box">
+    <i class="radmin-icon radmin-{{page.icon}}"></i>
+  </span>
+  <span class="hidden-tablet hidden-phone">{{page.label}}</span>
+</a>
+
+<a class="accordion-toggle" data-toggle="collapse" data-parent="#navigation-{{page.id}}" href="#collapse-{{page.id}}" ng-hide="page.subpages|empty">
+  <span class="box">
+    <i class="radmin-icon radmin-{{page.icon}}"></i>
+  </span>
+  <span class="hidden-tablet hidden-phone">{{page.label}}</span>
+  <span class="label pull-right hidden-tablet hidden-phone">{{page.subpages.length}}</span>
+</a>
+<div id="collapse-{{page.id}}" class="accordion-body collapse" ng-hide="page.subpages|empty">
+  <ul class="nav nav-stacked submenu">
+    <li ng-repeat="subpage in page.subpages">
+      <a href="{{subpage.url}}">
+        <span class="box">
+          <i class="radmin-icon radmin-{{subpage.icon}}"></i>
+        </span>
+        <span class="hidden-tablet hidden-phone">{{subpage.label}}</span>
+      </a>
+    </li>
+  </ul>
+</div>
