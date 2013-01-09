@@ -15,9 +15,13 @@
         </a>
         <span class="divider">/</span>
       </li>
-      <li ng-hide="member || departmentPage">
+      <li ng-hide="member || departmentPage || absencesPage">
         <i class="radmin-icon radmin-user"></i>
         Mannschaft
+      </li>
+      <li ng-show="absencesPage">
+        <i class="radmin-icon radmin-calendar"></i>
+        Fehlzeiten
       </li>
       <li ng-show="member">
         <span ng-show="member.isNew()">Neuer Mitarbeiter</span>

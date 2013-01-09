@@ -1,6 +1,9 @@
-<div ng-include="'/partials/team/breadcrumb.html'"></div>
+<div ng-include="'/partials/breadcrumb.html'"></div>
 
-<h1>Mannschaft</h1>
+<h1>
+  <span class="pull-left">Mannschaft</span>
+  <span class="pull-right">{{teamCount}} <span aria-hidden="true" data-icon="b"></span></span>
+</h1>
 
 <table class="table table-bordered table-zebra table-radmin table-team">
   <thead>
@@ -10,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="member in team|orderBy:'lastName'|departmentFilter:departmentFilter|filter:search">
+    <tr ng-repeat="member in team|orderBy:'lastName'|departmentFilter:departmentFilter|filter:search|teamCount:$root">
       <td><a href="#/team/{{member._id}}">{{member.name()}}</a></td>
       <td><span ng-repeat="department in member.departments"><a ng-click="toggleDepartmentFilter(department)"><span class="label {{department|filteredDepartment:departmentFilter:'label-warning'}}">{{department.name}}</span></a> </span></td>
     </tr>

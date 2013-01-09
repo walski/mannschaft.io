@@ -20,9 +20,9 @@ angular.module("manschaftApp", ["ngResource", "manschaftApp.filters", "manschaft
     templateUrl: "partials/team/edit"
     controller: TeamController
 
-  $routeProvider.when "/view2",
-    templateUrl: "partials/partial2.html"
-    controller: MyCtrl2
+  $routeProvider.when "/absences",
+    templateUrl: "partials/absences.html"
+    controller: AbsencesController
 
   $routeProvider.otherwise redirectTo: "/dashboard"
 ]

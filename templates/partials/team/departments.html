@@ -1,4 +1,4 @@
-<div ng-init="departmentPage=true" ng-include="'/partials/team/breadcrumb.html'"></div>
+<div ng-init="departmentPage=true" ng-include="'/partials/breadcrumb.html'"></div>
 
 <h1>Abteilungen</h1>
 
@@ -10,9 +10,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="(id, department) in departments()|orderBy:'count'">
-      <td>{{department.department.name}}</td>
-      <td>{{department.count}}</td>
+    <tr ng-repeat="department in departments()|orderObject:['count']|reverse">
+      <td><a ng-click="setDepartmentFilter(department.value.department)" href="/#/team">{{department.value.department.name}}</a></td>
+      <td>{{department.value.count}}</td>
     </tr>
   </tbody>
 </table>

@@ -12,7 +12,7 @@
   <span class="hidden-tablet hidden-phone">{{page.label}}</span>
   <span class="label pull-right hidden-tablet hidden-phone">{{page.subpages.length}}</span>
 </a>
-<div id="collapse-{{page.id}}" class="accordion-body collapse" ng-hide="page.subpages|empty">
+<div id="collapse-{{page.id}}" class="accordion-body collapse" ng-class="{in: activeView==page.id}" ng-hide="page.subpages|empty">
   <ul class="nav nav-stacked submenu">
     <li ng-repeat="subpage in page.subpages">
       <a href="{{subpage.url}}">

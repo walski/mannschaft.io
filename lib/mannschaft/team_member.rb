@@ -4,6 +4,7 @@ module Mannschaft
 
     field :firstName, type: String
     field :lastName, type: String
+    field :absences, type: Hash, default: {}
 
     embeds_many :departments
     accepts_nested_attributes_for :departments

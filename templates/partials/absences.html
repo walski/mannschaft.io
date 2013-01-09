@@ -1,0 +1,96 @@
+<div ng-init="absencesPage=true" ng-include="'/partials/breadcrumb.html'"></div>
+
+<!--
+
+Feiertage
+http://www.feiertage.net/frei-tage.php
+
+Starre Tabelle
+http://jsfiddle.net/emn13/YMvk9/
+
+-->
+
+<h1>
+  <span class="pull-left">
+    Fehlzeiten
+    <span class="date-picker" id="absences-date-picker" data-date-format="mm-yyyy" data-date-viewmode="months" data-date-minviewmode="months">
+      <input type="hidden" value="{{month|datepickerMonth}}">
+      <a>{{month|month}}</a>
+    </span>
+  </span>
+  <span class="pull-right">{{teamCount}} <span aria-hidden="true" data-icon="b"></span></span>
+</h1>
+<div class="clearfix"></div>
+
+<div class="table-absences-container">
+  <table class="table table-bordered table-zebra table-hover table-radmin table-absences">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th class="day weekday-{{weekdays[day]}}" ng-repeat="day in month|days">{{day}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="member in team|orderBy:'lastName'|departmentFilter:departmentFilter|filter:search|teamCount:$root">
+        <td><a href="#/team/{{member._id}}">{{member.name()}} {{member.countAbsence(month, 'pto')}}</a></td>
+
+        <td class="day weekday-{{weekdays[day]}} {{cellOpened|openAbsenceCell:$parent.$index:$index}} {{member|absenceClasses:month:day}}" ng-repeat="day in month|days" ng-click="openCell($parent.$index, $index)">
+          <a ng-repeat="absenceType in absenceTypes" ng-click="toggleAbsence($event, $parent.$parent.$index, $parent.$index, member, day, month, absenceType)" class="absence-marker absence-{{absenceType}} label" ng-include="'/partials/absenceIcons/' + absenceType" ng-dblclick="openLongTermAbsenceForm($event, $parent.$parent.$index, $parent.$index, member, day, month, absenceType)" title="{{absenceType|absenceLabel}}"></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div id="long-term-turn-off-form" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="long-term-turn-off-form-label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="long-term-turn-off-form-label">{{longTermInfo.member.name()}} - {{longTermInfo.absenceType|absenceLabel}}</h3>
+  </div>
+  <div class="modal-body">
+    Der {{longTermInfo.requestedDay|wholeDate}} ist Teil einer längeren Abwesenheit über {{longTermInfo.duration}} Tage ({{longTermInfo.workDayDuration}} Werktage) vom {{longTermInfo.start|wholeDate}} bis zum {{longTermInfo.end|wholeDate}}.
+
+    Möchtest du die Abwesenheit nur für den {{longTermInfo.requestedDay|wholeDate}} löschen oder die gesamte Abwesenheit?
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn" data-dismiss="modal" ng-click="clearLongTermAbsence(longTermInfo)">{{longTermInfo.start|wholeDate}} bis {{longTermInfo.end|wholeDate}}</button>
+    <button class="btn btn-primary" data-dismiss="modal" ng-click="toggleAbsence($event, longTermInfo.memberIndex, longTermInfo.dayIndex, longTermInfo.member, longTermInfo.requestedDay.date(), longTermInfo.requestedDay, longTermInfo.absenceType, true)">Nur der {{longTermInfo.requestedDay|wholeDate}}</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="long-term-form" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="long-term-form-label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="long-term-form-label">{{longTermForm.member.name()}} - {{longTermForm.absenceType|absenceLabel}}</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="control-group" ng-class="{error: longTermForm.start > longTermForm.end}">
+        <label class="control-label" for="inputLongTermStart">Beginn</label>
+        <div class="controls">
+          <span class="date-picker" id="long-term-start-date-picker" data-date-format="dd-mm-yyyy" data-date-viewmode="days" data-date-minviewmode="days">
+            <input type="hidden" value="{{month|datepickerMonth}}">
+            <a>{{longTermForm.start|wholeDate}}</a>
+            <span class="help-inline" ng-show="longTermForm.start > longTermForm.end">Der Beginn kann nicht nach dem Ende liegen</span>
+          </span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputLongTermEnd">Ende</label>
+        <div class="controls">
+          <span class="date-picker" id="long-term-end-date-picker" data-date-format="dd-mm-yyyy" data-date-viewmode="days" data-date-minviewmode="days">
+            <input type="hidden" value="{{month|datepickerMonth}}">
+            <a>{{longTermForm.end|wholeDate}}</a>
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Schließen</button>
+    <button class="btn btn-primary" ng-disabled="longTermForm.start > longTermForm.end" ng-click="setLongTermAbsence(longTermForm)">Speichern</button>
+  </div>
+</div>
